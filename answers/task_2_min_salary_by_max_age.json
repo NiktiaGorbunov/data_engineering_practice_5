@@ -1,1 +1,1 @@
-[{"_id": "result", "max_age": 65, "min_salary": 20737}]
+{"_id": {"$oid": "657bf8ece13f268fe8b61492"}, "job": "Менеджер", "salary": 28015, "id": 1212863, "city": "Белград", "year": 2013, "age": 65}

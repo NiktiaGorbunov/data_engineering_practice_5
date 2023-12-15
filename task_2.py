@@ -66,19 +66,14 @@ def get_freq_by_job(collection):
 def max_salary_by_min_age(collection):
     q = [
         {
-            "$group": {
-                "_id": "$age",
-                "max_salary": {"$max": "$salary"},
+            '$sort': {
+                "age": 1,
+                "salary": -1
             }
         },
         {
-            "$group": {
-                "_id": "result",
-                "min_age": {"$min": "$_id"},
-                "max_salary": {"$max": "$max_salary"},
-            }
-        },
-
+            '$limit': 1
+        }
     ]
 
     stat = [i for i in collection.aggregate(q)]
@@ -88,19 +83,14 @@ def max_salary_by_min_age(collection):
 def min_salary_by_max_age(collection):
     q = [
         {
-            "$group": {
-                "_id": "$age",
-                "min_salary": {"$min": "$salary"},
+            '$sort': {
+                "age": -1,
+                "salary": 1
             }
         },
         {
-            "$group": {
-                "_id": "result",
-                "max_age": {"$max": "$_id"},
-                "min_salary": {"$min": "$min_salary"},
-            }
-        },
-
+            '$limit': 1
+        }
     ]
 
     stat = [i for i in collection.aggregate(q)]
@@ -190,7 +180,7 @@ def big_query_3(collection):
 def main():
     client = connect()
 
-    data = get_from_pkl('tasks/task_2_item.pkl')
+    # data = get_from_pkl('tasks/task_2_item.pkl')
     # insert_many(client, data)
 
     # задание 1
@@ -234,10 +224,9 @@ def main():
     # whrite_json(stat, 'answers/task_2_big_query_2.json')
 
     # задание 11
-    # статистика зарплат разновозрастных учитилей в 4 городах отсортированная по среднему
+
     stat = big_query_3(client)
     # whrite_json(stat, 'answers/task_2_big_query_3.json')
-
 
 
 if __name__ == '__main__':
